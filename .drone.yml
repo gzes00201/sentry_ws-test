@@ -1,0 +1,13 @@
+kind: pipeline
+type: docker
+name: test1
+steps:
+  - name: one
+    image: alpine                        # 使用 alpine 容器
+    commands:                            # 預執行的 shell 指令，這邊印出 78523 內容
+      - echo "78523"
+trigger:
+  branch:
+  - master
+  event:
+  - push
