@@ -38,11 +38,20 @@ wss.on('connection', ws => {
   }, 10 * 1000)
 
   ws.on('message', data => {
-    // 收回來是 Buffer 格式、需轉成字串
-    data = data.toString()  
-    console.log(Number(data)) // 可在 terminal 看收到的訊息
-    currentIndex = Number(data)
-    /// 發送消息給client 
+    console.log('message', data.toString()   )
+    try {
+      const req = JSON.parse(data.toString() )
+      if(req.event === 'change') {
+        const index = Number(status.findIndex(d => d === req.data));
+        console.log('change', Number(status.findIndex(d => d === req.data)))
+        if(index > -1) {
+          currentIndex = index
+        }
+      }
+    } catch (error) {
+      console.log(`['message error']: ${error.toString()}`);
+    }
+   
   })
 
   // 當連線關閉
